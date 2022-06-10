@@ -12,7 +12,7 @@ export default class FeedsModel {
     return this._feeds;
   }
 
-  get total(): number {
+  get count(): number {
     return this._feeds.length;
   }
 
@@ -20,16 +20,14 @@ export default class FeedsModel {
     const doubleQuotesString: string = getDoubleQuotes(searchString);
     searchString = searchString.replace(`"${doubleQuotesString}"`, '');
     var regexBuilder = searchString.length > 0 ? searchString.split(' ') : [];
-    if (doubleQuotesString.length > 0) {
-      regexBuilder.push(`${doubleQuotesString}`);
-    }
+    doubleQuotesString.length > 0 && regexBuilder.push(`${doubleQuotesString}`);
     var searchRegex: RegExp = new RegExp(regexBuilder.join('|'), 'i');
     this._feeds = this.feeds.filter((el) =>
       searchRegex.test(el.name.concat(' ', el.description))
     );
   }
 
-  // By default .sort method employs merge sort
+  // By default .sort method employs merge sort O(n logn) in average case
   sortBy = (key: 'name' | 'dateLastEdited', type: 'asc' | 'desc' = 'asc') => {
     switch (key) {
       case 'name':
@@ -49,9 +47,7 @@ export default class FeedsModel {
     }
   };
 
-  paginate = (pageNo: number = 1, perPage: number = 10) => {
-    const startIndex = (pageNo - 1) * perPage;
-    const endIndex = pageNo * perPage;
-    this._feeds = this._feeds.slice(startIndex, endIndex);
-  };
+  // slice complexity O(N) where N = endIndex - startIndex
+  paginate = (pageNo: number = 1, perPage: number = 10) =>
+    (this._feeds = this._feeds.slice((pageNo - 1) * perPage, pageNo * perPage));
 }

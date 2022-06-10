@@ -21,7 +21,7 @@ app.get('/feeds', (req: Request, res: Response) => {
 
   // Sort post search
 
-  const count = feedsModel.total;
+  const { count } = feedsModel;
 
   if (sortBy) {
     console.time('sort');
@@ -29,17 +29,17 @@ app.get('/feeds', (req: Request, res: Response) => {
     console.timeEnd('sort');
   }
 
-  console.time('pagination');
   // Paginate (By Default PageNumber = 1 and Per Page = 10)
+
+  console.time('pagination');
   feedsModel.paginate(pageNo, perPage);
   console.timeEnd('pagination');
 
-  const { feeds, total } = feedsModel;
+  const { feeds } = feedsModel;
 
   res.json({
     data: {
       feeds,
-      total,
       perPage,
       pageNo,
       count
