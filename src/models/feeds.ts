@@ -1,5 +1,5 @@
 import FEEDS from '../data/mock_data.json';
-import { getDoubleQuotes } from '../utils';
+import { getDoubleQuotedString } from '../utils';
 
 export default class FeedsModel {
   private _feeds: FeedItems;
@@ -17,7 +17,7 @@ export default class FeedsModel {
   }
 
   search(searchString: string) {
-    const doubleQuotesString: string = getDoubleQuotes(searchString);
+    const doubleQuotesString: string = getDoubleQuotedString(searchString);
     searchString = searchString.replace(`"${doubleQuotesString}"`, '');
     var regexBuilder = searchString.length > 0 ? searchString.split(' ') : [];
     doubleQuotesString.length > 0 && regexBuilder.push(`${doubleQuotesString}`);

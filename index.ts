@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import FeedsModel from './models/feeds';
+import FeedsModel from './src/models/feeds';
 
 const app: Express = express();
 
