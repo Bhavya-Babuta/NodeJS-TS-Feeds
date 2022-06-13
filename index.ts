@@ -15,7 +15,6 @@ app.get('/feeds', (req: Request, res: Response) => {
   // Filter by search value
   if (search) {
     console.time('search');
-    console.log('Search:L ', search);
     feedsModel.search(search);
     console.timeEnd('search');
   }
