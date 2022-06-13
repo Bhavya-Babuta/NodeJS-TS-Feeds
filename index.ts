@@ -15,6 +15,7 @@ app.get('/feeds', (req: Request, res: Response) => {
   // Filter by search value
   if (search) {
     console.time('search');
+    console.log('Search:L ', search);
     feedsModel.search(search);
     console.timeEnd('search');
   }
@@ -40,8 +41,8 @@ app.get('/feeds', (req: Request, res: Response) => {
   res.json({
     data: {
       feeds,
-      perPage,
-      pageNo,
+      perPage: perPage || 10,
+      pageNo: pageNo || 1,
       count
     }
   });

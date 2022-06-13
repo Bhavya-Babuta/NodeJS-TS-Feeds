@@ -18,8 +18,10 @@ export default class FeedsModel {
 
   search(searchString: string) {
     const doubleQuotesString: string = getDoubleQuotedString(searchString);
-    searchString = searchString.replace(`"${doubleQuotesString}"`, '');
+    searchString = searchString.replace(`"${doubleQuotesString}"`, '').trim();
+    console.log('Search string: ', searchString);
     var regexBuilder = searchString.length > 0 ? searchString.split(' ') : [];
+    console.log(regexBuilder);
     doubleQuotesString.length > 0 && regexBuilder.push(`${doubleQuotesString}`);
     var searchRegex: RegExp = new RegExp(regexBuilder.join('|'), 'i');
     this._feeds = this.feeds.filter((el) =>
