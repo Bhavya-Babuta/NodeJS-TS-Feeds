@@ -31,16 +31,25 @@ export default class FeedsModel {
   sortBy = (key: 'name' | 'dateLastEdited', type: 'asc' | 'desc' = 'asc') => {
     switch (key) {
       case 'name':
-        this._feeds = this._feeds.sort((a, b) => a[key].localeCompare(b[key]));
+        this._feeds.sort(
+          (a, b) => (type === 'asc' ? 1 : -1) * a[key].localeCompare(b[key])
+        );
         break;
       case 'dateLastEdited':
-        this._feeds = this._feeds.sort((a, b) =>
-          new Date(a.dateLastEdited) > new Date(b.dateLastEdited)
+        this._feeds.sort((a, b) => {
+          if (type === 'desc') {
+            return new Date(a.dateLastEdited) < new Date(b.dateLastEdited)
+              ? 1
+              : new Date(a.dateLastEdited) === new Date(b.dateLastEdited)
+              ? 0
+              : -1;
+          }
+          return new Date(a.dateLastEdited) > new Date(b.dateLastEdited)
             ? 1
             : new Date(a.dateLastEdited) === new Date(b.dateLastEdited)
             ? 0
-            : -1
-        );
+            : -1;
+        });
         break;
       default:
         break;
